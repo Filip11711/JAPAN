@@ -1,0 +1,7 @@
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\Japan\obj\Debug\net7.0\JAPAN.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\Japan\obj\Debug\net7.0\JAPAN.AssemblyInfoInputs.cache
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\Japan\obj\Debug\net7.0\JAPAN.AssemblyInfo.cs
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\Japan\obj\Debug\net7.0\JAPAN.csproj.CoreCompileInputs.cache
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\Japan\obj\Debug\net7.0\JAPAN.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\Japan\obj\Debug\net7.0\JAPAN.RazorAssemblyInfo.cache
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\Japan\obj\Debug\net7.0\JAPAN.RazorAssemblyInfo.cs
