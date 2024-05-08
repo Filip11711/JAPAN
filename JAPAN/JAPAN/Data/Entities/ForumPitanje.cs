@@ -15,7 +15,7 @@ public partial class ForumPitanje
 
     public int Idkorisnik { get; set; }
 
-    public virtual ICollection<ForumOdgovor> ForumOdgovors { get; set; } = new List<ForumOdgovor>();
+    public virtual ICollection<ForumOdgovor> ForumOdgovori { get; set; } = new List<ForumOdgovor>();
 
-    public virtual Korisnik IdkorisnikNavigation { get; set; } = null!;
+    public virtual Korisnik Korisnik { get; set; } = null!;
 }

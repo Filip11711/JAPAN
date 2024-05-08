@@ -15,9 +15,9 @@ public partial class Ispit
 
     public int Idtezina { get; set; }
 
-    public virtual Tezina IdtezinaNavigation { get; set; } = null!;
+    public virtual Tezina Tezina { get; set; } = null!;
 
-    public virtual ICollection<Statistika> Statistikas { get; set; } = new List<Statistika>();
+    public virtual ICollection<Statistika> Statistike { get; set; } = new List<Statistika>();
 
-    public virtual ICollection<Pitanje> Idpitanjes { get; set; } = new List<Pitanje>();
+    public virtual ICollection<Pitanje> Pitanja { get; set; } = new List<Pitanje>();
 }

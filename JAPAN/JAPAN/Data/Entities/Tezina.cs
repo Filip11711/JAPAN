@@ -9,7 +9,7 @@ public partial class Tezina
 
     public string Naziv { get; set; } = null!;
 
-    public virtual ICollection<Ispit> Ispits { get; set; } = new List<Ispit>();
+    public virtual ICollection<Ispit> Ispiti { get; set; } = new List<Ispit>();
 
-    public virtual ICollection<Tecaj> Tecajs { get; set; } = new List<Tecaj>();
+    public virtual ICollection<Tecaj> Tecaji { get; set; } = new List<Tecaj>();
 }

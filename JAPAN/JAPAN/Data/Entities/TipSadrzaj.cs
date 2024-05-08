@@ -9,5 +9,5 @@ public partial class TipSadrzaj
 
     public string Naziv { get; set; } = null!;
 
-    public virtual ICollection<Tecaj> Tecajs { get; set; } = new List<Tecaj>();
+    public virtual ICollection<Tecaj> Tecaji { get; set; } = new List<Tecaj>();
 }

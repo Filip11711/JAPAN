@@ -112,3 +112,4 @@ C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\obj\Debug\
 C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\obj\Debug\net8.0\JAPAN.pdb
 C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\obj\Debug\net8.0\JAPAN.genruntimeconfig.cache
 C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\obj\Debug\net8.0\ref\JAPAN.dll
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\obj\Debug\net8.0\JAPAN.sourcelink.json

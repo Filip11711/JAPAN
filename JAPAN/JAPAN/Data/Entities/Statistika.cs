@@ -17,9 +17,9 @@ public partial class Statistika
 
     public int? Idispit { get; set; }
 
-    public virtual Ispit? IdispitNavigation { get; set; }
+    public virtual Ispit? Ispit { get; set; }
 
-    public virtual Korisnik IdkorisnikNavigation { get; set; } = null!;
+    public virtual Korisnik Korisnik { get; set; } = null!;
 
-    public virtual Tecaj? IdtecajNavigation { get; set; }
+    public virtual Tecaj? Tecaj { get; set; }
 }

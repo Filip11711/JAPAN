@@ -59,12 +59,12 @@ public partial class JapanContext : DbContext
                 .HasMaxLength(1000)
                 .HasColumnName("sadrzaj");
 
-            entity.HasOne(d => d.IdkorisnikNavigation).WithMany(p => p.ForumOdgovors)
+            entity.HasOne(d => d.Korisnik).WithMany(p => p.ForumOdgovori)
                 .HasForeignKey(d => d.Idkorisnik)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("forum_odgovor_idkorisnik_fkey");
 
-            entity.HasOne(d => d.IdpitanjeNavigation).WithMany(p => p.ForumOdgovors)
+            entity.HasOne(d => d.ForumPitanje).WithMany(p => p.ForumOdgovori)
                 .HasForeignKey(d => d.Idpitanje)
                 .HasConstraintName("forum_odgovor_idpitanje_fkey");
         });
@@ -87,7 +87,7 @@ public partial class JapanContext : DbContext
                 .HasMaxLength(1000)
                 .HasColumnName("sadrzaj");
 
-            entity.HasOne(d => d.IdkorisnikNavigation).WithMany(p => p.ForumPitanjes)
+            entity.HasOne(d => d.Korisnik).WithMany(p => p.ForumPitanja)
                 .HasForeignKey(d => d.Idkorisnik)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("forum_pitanje_idkorisnik_fkey");
@@ -111,12 +111,12 @@ public partial class JapanContext : DbContext
                 .HasColumnName("opis");
             entity.Property(e => e.Pozicija).HasColumnName("pozicija");
 
-            entity.HasOne(d => d.IdtezinaNavigation).WithMany(p => p.Ispits)
+            entity.HasOne(d => d.Tezina).WithMany(p => p.Ispiti)
                 .HasForeignKey(d => d.Idtezina)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("ispit_idtezina_fkey");
 
-            entity.HasMany(d => d.Idpitanjes).WithMany(p => p.Idispits)
+            entity.HasMany(d => d.Pitanja).WithMany(p => p.Ispiti)
                 .UsingEntity<Dictionary<string, object>>(
                     "Ispitpitanje",
                     r => r.HasOne<Pitanje>().WithMany()
@@ -145,15 +145,18 @@ public partial class JapanContext : DbContext
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-            entity.Property(e => e.Email)
+            entity.Property(e => e.Identifikator)
                 .HasMaxLength(50)
-                .HasColumnName("email");
+                .HasColumnName("identifikator");
             entity.Property(e => e.Iduloga).HasColumnName("iduloga");
             entity.Property(e => e.Korisnickoime)
                 .HasMaxLength(50)
                 .HasColumnName("korisnickoime");
 
-            entity.HasOne(d => d.IdulogaNavigation).WithMany(p => p.Korisniks)
+            entity.HasIndex(e => e.Korisnickoime).IsUnique();
+            entity.HasIndex(e => e.Id).IsUnique();
+
+            entity.HasOne(d => d.Uloga).WithMany(p => p.Korisnici)
                 .HasForeignKey(d => d.Iduloga)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("korisnik_iduloga_fkey");
@@ -174,7 +177,7 @@ public partial class JapanContext : DbContext
                 .HasColumnName("tekst");
             entity.Property(e => e.Tocno).HasColumnName("tocno");
 
-            entity.HasOne(d => d.IdpitanjeNavigation).WithMany(p => p.Odgovors)
+            entity.HasOne(d => d.Pitanje).WithMany(p => p.Odgovori)
                 .HasForeignKey(d => d.Idpitanje)
                 .HasConstraintName("odgovor_idpitanje_fkey");
         });
@@ -210,16 +213,16 @@ public partial class JapanContext : DbContext
                 .HasColumnName("rezultat");
             entity.Property(e => e.Zavrseno).HasColumnName("zavrseno");
 
-            entity.HasOne(d => d.IdispitNavigation).WithMany(p => p.Statistikas)
+            entity.HasOne(d => d.Ispit).WithMany(p => p.Statistike)
                 .HasForeignKey(d => d.Idispit)
                 .HasConstraintName("statistika_idispit_fkey");
 
-            entity.HasOne(d => d.IdkorisnikNavigation).WithMany(p => p.Statistikas)
+            entity.HasOne(d => d.Korisnik).WithMany(p => p.Statistike)
                 .HasForeignKey(d => d.Idkorisnik)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("statistika_idkorisnik_fkey");
 
-            entity.HasOne(d => d.IdtecajNavigation).WithMany(p => p.Statistikas)
+            entity.HasOne(d => d.Tecaj).WithMany(p => p.Statistike)
                 .HasForeignKey(d => d.Idtecaj)
                 .HasConstraintName("statistika_idtecaj_fkey");
         });
@@ -247,12 +250,12 @@ public partial class JapanContext : DbContext
                 .HasMaxLength(1000)
                 .HasColumnName("sadrzaj");
 
-            entity.HasOne(d => d.IdtezinaNavigation).WithMany(p => p.Tecajs)
+            entity.HasOne(d => d.Tezina).WithMany(p => p.Tecaji)
                 .HasForeignKey(d => d.Idtezina)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("tecaj_idtezina_fkey");
 
-            entity.HasOne(d => d.IdtipsadrzajNavigation).WithMany(p => p.Tecajs)
+            entity.HasOne(d => d.Tipsadrzaja).WithMany(p => p.Tecaji)
                 .HasForeignKey(d => d.Idtipsadrzaj)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("tecaj_idtipsadrzaj_fkey");

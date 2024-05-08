@@ -160,11 +160,11 @@ namespace JAPAN.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Identifikator")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
-                        .HasColumnName("email");
+                        .HasColumnName("identifikator");
 
                     b.Property<int>("Iduloga")
                         .HasColumnType("integer")
@@ -179,7 +179,13 @@ namespace JAPAN.Migrations
                     b.HasKey("Id")
                         .HasName("korisnik_pkey");
 
+                    b.HasIndex("Id")
+                        .IsUnique();
+
                     b.HasIndex("Iduloga");
+
+                    b.HasIndex("Korisnickoime")
+                        .IsUnique();
 
                     b.ToTable("korisnik", (string)null);
                 });
@@ -411,157 +417,157 @@ namespace JAPAN.Migrations
 
             modelBuilder.Entity("JAPAN.Data.Entities.ForumOdgovor", b =>
                 {
-                    b.HasOne("JAPAN.Data.Entities.Korisnik", "IdkorisnikNavigation")
-                        .WithMany("ForumOdgovors")
+                    b.HasOne("JAPAN.Data.Entities.Korisnik", "Korisnik")
+                        .WithMany("ForumOdgovori")
                         .HasForeignKey("Idkorisnik")
                         .IsRequired()
                         .HasConstraintName("forum_odgovor_idkorisnik_fkey");
 
-                    b.HasOne("JAPAN.Data.Entities.ForumPitanje", "IdpitanjeNavigation")
-                        .WithMany("ForumOdgovors")
+                    b.HasOne("JAPAN.Data.Entities.ForumPitanje", "ForumPitanje")
+                        .WithMany("ForumOdgovori")
                         .HasForeignKey("Idpitanje")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("forum_odgovor_idpitanje_fkey");
 
-                    b.Navigation("IdkorisnikNavigation");
+                    b.Navigation("ForumPitanje");
 
-                    b.Navigation("IdpitanjeNavigation");
+                    b.Navigation("Korisnik");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.ForumPitanje", b =>
                 {
-                    b.HasOne("JAPAN.Data.Entities.Korisnik", "IdkorisnikNavigation")
-                        .WithMany("ForumPitanjes")
+                    b.HasOne("JAPAN.Data.Entities.Korisnik", "Korisnik")
+                        .WithMany("ForumPitanja")
                         .HasForeignKey("Idkorisnik")
                         .IsRequired()
                         .HasConstraintName("forum_pitanje_idkorisnik_fkey");
 
-                    b.Navigation("IdkorisnikNavigation");
+                    b.Navigation("Korisnik");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Ispit", b =>
                 {
-                    b.HasOne("JAPAN.Data.Entities.Tezina", "IdtezinaNavigation")
-                        .WithMany("Ispits")
+                    b.HasOne("JAPAN.Data.Entities.Tezina", "Tezina")
+                        .WithMany("Ispiti")
                         .HasForeignKey("Idtezina")
                         .IsRequired()
                         .HasConstraintName("ispit_idtezina_fkey");
 
-                    b.Navigation("IdtezinaNavigation");
+                    b.Navigation("Tezina");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Korisnik", b =>
                 {
-                    b.HasOne("JAPAN.Data.Entities.Uloga", "IdulogaNavigation")
-                        .WithMany("Korisniks")
+                    b.HasOne("JAPAN.Data.Entities.Uloga", "Uloga")
+                        .WithMany("Korisnici")
                         .HasForeignKey("Iduloga")
                         .IsRequired()
                         .HasConstraintName("korisnik_iduloga_fkey");
 
-                    b.Navigation("IdulogaNavigation");
+                    b.Navigation("Uloga");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Odgovor", b =>
                 {
-                    b.HasOne("JAPAN.Data.Entities.Pitanje", "IdpitanjeNavigation")
-                        .WithMany("Odgovors")
+                    b.HasOne("JAPAN.Data.Entities.Pitanje", "Pitanje")
+                        .WithMany("Odgovori")
                         .HasForeignKey("Idpitanje")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("odgovor_idpitanje_fkey");
 
-                    b.Navigation("IdpitanjeNavigation");
+                    b.Navigation("Pitanje");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Statistika", b =>
                 {
-                    b.HasOne("JAPAN.Data.Entities.Ispit", "IdispitNavigation")
-                        .WithMany("Statistikas")
+                    b.HasOne("JAPAN.Data.Entities.Ispit", "Ispit")
+                        .WithMany("Statistike")
                         .HasForeignKey("Idispit")
                         .HasConstraintName("statistika_idispit_fkey");
 
-                    b.HasOne("JAPAN.Data.Entities.Korisnik", "IdkorisnikNavigation")
-                        .WithMany("Statistikas")
+                    b.HasOne("JAPAN.Data.Entities.Korisnik", "Korisnik")
+                        .WithMany("Statistike")
                         .HasForeignKey("Idkorisnik")
                         .IsRequired()
                         .HasConstraintName("statistika_idkorisnik_fkey");
 
-                    b.HasOne("JAPAN.Data.Entities.Tecaj", "IdtecajNavigation")
-                        .WithMany("Statistikas")
+                    b.HasOne("JAPAN.Data.Entities.Tecaj", "Tecaj")
+                        .WithMany("Statistike")
                         .HasForeignKey("Idtecaj")
                         .HasConstraintName("statistika_idtecaj_fkey");
 
-                    b.Navigation("IdispitNavigation");
+                    b.Navigation("Ispit");
 
-                    b.Navigation("IdkorisnikNavigation");
+                    b.Navigation("Korisnik");
 
-                    b.Navigation("IdtecajNavigation");
+                    b.Navigation("Tecaj");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Tecaj", b =>
                 {
-                    b.HasOne("JAPAN.Data.Entities.Tezina", "IdtezinaNavigation")
-                        .WithMany("Tecajs")
+                    b.HasOne("JAPAN.Data.Entities.Tezina", "Tezina")
+                        .WithMany("Tecaji")
                         .HasForeignKey("Idtezina")
                         .IsRequired()
                         .HasConstraintName("tecaj_idtezina_fkey");
 
-                    b.HasOne("JAPAN.Data.Entities.TipSadrzaj", "IdtipsadrzajNavigation")
-                        .WithMany("Tecajs")
+                    b.HasOne("JAPAN.Data.Entities.TipSadrzaj", "Tipsadrzaja")
+                        .WithMany("Tecaji")
                         .HasForeignKey("Idtipsadrzaj")
                         .IsRequired()
                         .HasConstraintName("tecaj_idtipsadrzaj_fkey");
 
-                    b.Navigation("IdtezinaNavigation");
+                    b.Navigation("Tezina");
 
-                    b.Navigation("IdtipsadrzajNavigation");
+                    b.Navigation("Tipsadrzaja");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.ForumPitanje", b =>
                 {
-                    b.Navigation("ForumOdgovors");
+                    b.Navigation("ForumOdgovori");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Ispit", b =>
                 {
-                    b.Navigation("Statistikas");
+                    b.Navigation("Statistike");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Korisnik", b =>
                 {
-                    b.Navigation("ForumOdgovors");
+                    b.Navigation("ForumOdgovori");
 
-                    b.Navigation("ForumPitanjes");
+                    b.Navigation("ForumPitanja");
 
-                    b.Navigation("Statistikas");
+                    b.Navigation("Statistike");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Pitanje", b =>
                 {
-                    b.Navigation("Odgovors");
+                    b.Navigation("Odgovori");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Tecaj", b =>
                 {
-                    b.Navigation("Statistikas");
+                    b.Navigation("Statistike");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Tezina", b =>
                 {
-                    b.Navigation("Ispits");
+                    b.Navigation("Ispiti");
 
-                    b.Navigation("Tecajs");
+                    b.Navigation("Tecaji");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.TipSadrzaj", b =>
                 {
-                    b.Navigation("Tecajs");
+                    b.Navigation("Tecaji");
                 });
 
             modelBuilder.Entity("JAPAN.Data.Entities.Uloga", b =>
                 {
-                    b.Navigation("Korisniks");
+                    b.Navigation("Korisnici");
                 });
 #pragma warning restore 612, 618
         }

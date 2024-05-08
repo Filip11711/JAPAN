@@ -9,7 +9,7 @@ public partial class Pitanje
 
     public string Tekst { get; set; } = null!;
 
-    public virtual ICollection<Odgovor> Odgovors { get; set; } = new List<Odgovor>();
+    public virtual ICollection<Odgovor> Odgovori { get; set; } = new List<Odgovor>();
 
-    public virtual ICollection<Ispit> Idispits { get; set; } = new List<Ispit>();
+    public virtual ICollection<Ispit> Ispiti { get; set; } = new List<Ispit>();
 }

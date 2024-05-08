@@ -21,9 +21,9 @@ public partial class Tecaj
 
     public int Idtezina { get; set; }
 
-    public virtual Tezina IdtezinaNavigation { get; set; } = null!;
+    public virtual Tezina Tezina { get; set; } = null!;
 
-    public virtual TipSadrzaj IdtipsadrzajNavigation { get; set; } = null!;
+    public virtual TipSadrzaj Tipsadrzaja { get; set; } = null!;
 
-    public virtual ICollection<Statistika> Statistikas { get; set; } = new List<Statistika>();
+    public virtual ICollection<Statistika> Statistike { get; set; } = new List<Statistika>();
 }

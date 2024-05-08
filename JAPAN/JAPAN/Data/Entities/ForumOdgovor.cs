@@ -15,7 +15,7 @@ public partial class ForumOdgovor
 
     public int Idpitanje { get; set; }
 
-    public virtual Korisnik IdkorisnikNavigation { get; set; } = null!;
+    public virtual Korisnik Korisnik { get; set; } = null!;
 
-    public virtual ForumPitanje IdpitanjeNavigation { get; set; } = null!;
+    public virtual ForumPitanje ForumPitanje { get; set; } = null!;
 }

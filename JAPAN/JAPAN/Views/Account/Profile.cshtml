@@ -1,0 +1,20 @@
+﻿@model JAPAN.ViewModels.UserProfileViewModel
+@{
+    ViewData["Title"] = "Profil";
+}
+
+<div>
+    <p>Korisnički identifikator: @Model.Identifikator</p>
+    <p>Korisničko ime:           @Model.Korisnickoime</p>
+    <p>Uloga:                    @Model.Uloga</p>
+    <hr/>
+    @foreach (var statistika in @Model.Statistike_tecaja)
+    {
+        <p>@statistika.Rezultat</p>
+    }
+    <hr/>
+    @foreach (var statistika in @Model.Statistike_ispita)
+    {
+        <p>@statistika.Rezultat</p>
+    }
+</div>
