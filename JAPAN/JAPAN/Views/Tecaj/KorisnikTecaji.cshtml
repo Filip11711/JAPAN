@@ -1,0 +1,23 @@
+﻿@model JAPAN.ViewModels.KorisnikTecajiViewModel
+@{
+    ViewData["Title"] = "Tecaji";
+}
+
+<h1>Tecaji</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Tecaj</th>
+            <th>Rezultat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tecaj in Model.Tecaji)
+        {
+            <tr>
+                <td>@tecaj.Naziv</td>
+                <td>@Model.Rezultati[tecaj.Id]</td>
+            </tr>
+        }
+    </tbody>
+</table>

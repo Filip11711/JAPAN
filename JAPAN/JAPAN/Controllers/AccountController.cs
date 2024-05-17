@@ -27,7 +27,7 @@ namespace JAPAN.Controllers
 
             if (userId != null && ime != null)
             {
-                var user = await _context.Korisnici.FirstOrDefaultAsync(u => u.Identifikator == userId);
+                var user = await _context.Korisnici.Include(u => u.Uloga).FirstOrDefaultAsync(u => u.Identifikator == userId);
                 var Role = await _context.Uloge.FirstOrDefaultAsync(u => u.Naziv == "Korisnik");
                 if (user == null && Role != null)
                 {
@@ -41,6 +41,18 @@ namespace JAPAN.Controllers
                     _context.Korisnici.Add(user);
                     await _context.SaveChangesAsync();
                 }
+                var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, userId),
+                new Claim(ClaimTypes.Role, user.Uloga.Naziv)
+            };
+
+                var identity = new ClaimsIdentity(claims, "Auth0");
+
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
             }
             return RedirectToAction("Index", "Home");
         }

@@ -1,6 +1,7 @@
 using Auth0.AspNetCore.Authentication;
 using JAPAN.Data;
 using JAPAN.Support;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
