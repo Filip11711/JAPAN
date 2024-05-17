@@ -1,0 +1,20 @@
+﻿@model JAPAN.ViewModels.KorisnikIspitViewModel
+@{
+    ViewData["Title"] = "Ispit";
+}
+
+<h1>Ispit</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Ispit</th>
+            <th>Rezultat</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Ispit.Naziv</td>
+            <td>@Model.Rezultat</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,23 @@
+﻿@model JAPAN.ViewModels.KorisnikIspitiViewModel
+@{
+    ViewData["Title"] = "Ispiti";
+}
+
+<h1>Ispiti</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Ispit</th>
+            <th>Rezultat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ispit in Model.Ispiti)
+        {
+            <tr>
+                <td>@ispit.Naziv</td>
+                <td>@Model.Rezultati[ispit.Id]</td>
+            </tr>
+        }
+    </tbody>
+</table>
