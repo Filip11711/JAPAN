@@ -54,6 +54,8 @@ namespace JAPAN.Controllers
                                                .FirstOrDefaultAsync(u => u.Identifikator == userId);
 
             var ispit = await _context.Ispiti.Include(i => i.Tezina)
+                                             .Include(i => i.Pitanja)
+                                             .ThenInclude(p => p.Odgovori)
                                               .FirstOrDefaultAsync(i => i.Id == id);
 
             if (ispit == null)
@@ -61,12 +63,10 @@ namespace JAPAN.Controllers
                 return NotFound();
             }
 
-            var rezultat = user.Statistike.FirstOrDefault(s => s.Idispit == id)?.Rezultat;
-
             var viewModel = new KorisnikIspitViewModel
             {
-                Ispit = ispit,
-                Rezultat = rezultat
+                Korisnik = user,
+                Ispit = ispit
             };
 
             return View(viewModel);

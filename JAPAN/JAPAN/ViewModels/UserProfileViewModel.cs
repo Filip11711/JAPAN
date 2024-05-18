@@ -9,8 +9,5 @@ namespace JAPAN.ViewModels
         public string Identifikator { get; set; } = null!;
 
         public string Uloga { get; set; } = null!;
-
-        public List<Statistika> Statistike_tecaja { get; set; } = null!;
-        public List<Statistika> Statistike_ispita { get; set; } = null!;
     }
 }

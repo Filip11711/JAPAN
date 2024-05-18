@@ -91,19 +91,11 @@ namespace JAPAN.Controllers
                                                .Include(u => u.Uloga)
                                                .FirstOrDefaultAsync(u => u.Identifikator == userId);
 
-            
-            List<Statistika> statistike_tecaja = user.Statistike.Where(s => s.Idispit == null).ToList();
-            statistike_tecaja.OrderBy(v => v.Tecaj.Pozicija);
-            List<Statistika> statistike_ispita = user.Statistike.Where(s => s.Idtecaj == null).ToList();
-            statistike_tecaja.OrderBy(v => v.Ispit.Pozicija);
-
             return View(new UserProfileViewModel
             {
                 Identifikator = userId,
                 Korisnickoime = user.Korisnickoime,
-                Uloga = user.Uloga.Naziv,
-                Statistike_tecaja = statistike_tecaja,
-                Statistike_ispita = statistike_ispita
+                Uloga = user.Uloga.Naziv
             });
         }
 
