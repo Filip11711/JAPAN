@@ -3,12 +3,15 @@
     ViewData["Title"] = "Tecaji";
 }
 
-<h1>Tecaji</h1>
-<table>
+<h1 class="my-4">Tecaji</h1>
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Tecaj</th>
-            <th>Rezultat</th>
+            <th>Naziv</th>
+            <th>Opis</th>
+            <th>Težina</th>
+            <th>Status</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -16,8 +19,25 @@
         {
             <tr>
                 <td>@tecaj.Naziv</td>
-                <td>@Model.Rezultati[tecaj.Id]</td>
+                <td>@tecaj.Opis</td>
+                <td>@tecaj.Tezina.Naziv</td>
+                <td>
+                    @if (Model.Rezultati.ContainsKey(tecaj.Id) && Model.Rezultati[tecaj.Id] != null)
+                    {
+                        <span class="badge badge-success">Završeno</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Tecaj" asp-action="KorisnikTecaj" asp-route-id="@tecaj.Id">Položi</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<style>
+    .badge-success {
+        background-color: #28a745 !important;
+        color: #fff !important;
+    }
+</style>

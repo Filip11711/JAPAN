@@ -3,12 +3,15 @@
     ViewData["Title"] = "Ispiti";
 }
 
-<h1>Ispiti</h1>
-<table>
+<h1 class="my-4">Ispiti</h1>
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Ispit</th>
-            <th>Rezultat</th>
+            <th>Naziv</th>
+            <th>Opis</th>
+            <th>Težina</th>
+            <th>Zadnji rezultat</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -16,8 +19,46 @@
         {
             <tr>
                 <td>@ispit.Naziv</td>
-                <td>@Model.Rezultati[ispit.Id]</td>
+                <td>@ispit.Opis</td>
+                <td>@ispit.Tezina.Naziv</td>
+                <td>
+                    @if (Model.Rezultati.ContainsKey(ispit.Id) && Model.Rezultati[ispit.Id] != null)
+                    {
+                        var rezultat = Model.Rezultati[ispit.Id];
+                        var parts = rezultat.Split('/');
+                        var score = double.Parse(parts[0]);
+                        var total = double.Parse(parts[1]);
+                        var percentage = (score / total) * 100;
+
+                        <span class="badge
+                            @(percentage >= 80 ? "badge-high" :
+                              percentage >= 50 ? "badge-medium" :
+                              "badge-low")">
+                            @rezultat
+                        </span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Ispit" asp-action="KorisnikIspit" asp-route-id="@ispit.Id">Položi</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<style>
+    .badge-high {
+        background-color: #28a745; /* Green */
+        color: white;
+    }
+
+    .badge-medium {
+        background-color: #ffc107; /* Yellow */
+        color: black;
+    }
+
+    .badge-low {
+        background-color: #dc3545; /* Red */
+        color: white;
+    }
+</style>
