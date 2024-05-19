@@ -3,18 +3,52 @@
     ViewData["Title"] = "Tecaj";
 }
 
-<h1>Tecaj</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Tecaj</th>
-            <th>Rezultat</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>@Model.Tecaj.Naziv</td>
-            <td>@Model.Rezultat</td>
-        </tr>
-    </tbody>
-</table>
+<h1>@Model.Tecaj.Naziv</h1>
+<br/>
+<h3>@Model.Tecaj.Opis</h3>
+<br/>
+
+<div class="sadrzaj-item">
+    @if (Model.Tecaj.Tipsadrzaja.Naziv == "Tekst")
+    {
+        <p>@Model.Tecaj.Sadrzaj</p>
+    }
+    else if (Model.Tecaj.Tipsadrzaja.Naziv == "Markdown")
+    {
+        <div class="markdown-content">
+            @Html.Raw(Markdig.Markdown.ToHtml(@Model.Tecaj.Sadrzaj))
+        </div>
+    }
+    else if (Model.Tecaj.Tipsadrzaja.Naziv == "HTML")
+    {
+        <div class="html-content">
+            @Html.Raw(@Model.Tecaj.Sadrzaj)
+        </div>
+    }
+    else if (Model.Tecaj.Tipsadrzaja.Naziv == "Audio")
+    {
+        <audio controls>
+            <source src="@Model.Tecaj.Sadrzaj" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    }
+    else if (Model.Tecaj.Tipsadrzaja.Naziv == "Video")
+    {
+        <video controls>
+            <source src="@Model.Tecaj.Sadrzaj" type="video/mp4">
+            Your browser does not support the video element.
+        </video>
+    }
+</div>
+<br/>
+@if(Model.Rezultat == null)
+{
+    <form asp-action="KorisnikTecajZavrsi" method="post" class="mt-4">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="userId" value="@Model.Korisnik.Id" />
+        <input type="hidden" name="tecajId" value="@Model.Tecaj.Id" />
+        <button type="submit" class="btn btn-success">Završi tečaj</button>
+    </form>
+    <br />
+}
+<a class="btn btn-danger" asp-controller="Tecaj" asp-action="KorisnikTecaji">Povratak</a>

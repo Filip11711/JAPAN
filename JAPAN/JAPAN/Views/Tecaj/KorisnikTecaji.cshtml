@@ -3,7 +3,7 @@
     ViewData["Title"] = "Tecaji";
 }
 
-<h1 class="my-4">Tecaji</h1>
+<h1 class="my-4">Tečaji</h1>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -28,12 +28,21 @@
                     }
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-controller="Tecaj" asp-action="KorisnikTecaj" asp-route-id="@tecaj.Id">Položi</a>
+                    @if (Model.Rezultati.ContainsKey(tecaj.Id) && Model.Rezultati[tecaj.Id] != null)
+                    {
+                        <a class="btn btn-primary" asp-controller="Tecaj" asp-action="KorisnikTecaj" asp-route-id="@tecaj.Id">Ponovi</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-controller="Tecaj" asp-action="KorisnikTecaj" asp-route-id="@tecaj.Id">Položi</a>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<br/>
+<a class="btn btn-danger" asp-controller="Home" asp-action="Index">Povratak</a>
 
 <style>
     .badge-success {
