@@ -1,13 +1,83 @@
-﻿
+﻿@model JAPAN.ViewModels.KorisnikStatistikeViewModel
+@{
+    ViewData["Title"] = "Statistike";
+}
 
-<hr />
-@foreach (var statistika in @Model.Statistike_tecaja)
-{
-    <p>@statistika.Rezultat</p>
-}
-<hr />
-@foreach (var statistika in @Model.Statistike_ispita)
-{
-    <p>@statistika.Rezultat</p>
-}
-<hr />
+<h1 class="my-4">Završeni tečaji</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Naziv</th>
+            <th>Opis</th>
+            <th>Težina</th>
+            <th>Završeno</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var statistika_tecaj in @Model.Statistike_tecaja)
+        {
+            <tr>
+                <td>@statistika_tecaj.Tecaj.Naziv</td>
+                <td>@statistika_tecaj.Tecaj.Opis</td>
+                <td>@statistika_tecaj.Tecaj.Tezina.Naziv</td>
+                <td>@statistika_tecaj.Zavrseno</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br/>
+<h1 class="my-4">Završeni ispiti</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Naziv</th>
+            <th>Opis</th>
+            <th>Težina</th>
+            <th>Završeno</th>
+            <th>Rezultat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var statistika_ispit in @Model.Statistike_ispita)
+        {
+            <tr>
+                <td>@statistika_ispit.Ispit.Naziv</td>
+                <td>@statistika_ispit.Ispit.Opis</td>
+                <td>@statistika_ispit.Ispit.Tezina.Naziv</td>
+                <td>@statistika_ispit.Zavrseno</td>
+                <td>
+                    @{var rezultat = statistika_ispit.Rezultat;
+                    var parts = rezultat.Split('/');
+                    var score = double.Parse(parts[0]);
+                    var total = double.Parse(parts[1]);
+                    var percentage = (score / total) * 100;
+
+                    <span class="badge
+                            @(percentage >= 80 ? "badge-high" :
+                              percentage >= 50 ? "badge-medium" :
+                              "badge-low")">
+                        @rezultat
+                    </span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .badge-high {
+        background-color: #28a745; /* Green */
+        color: white;
+    }
+
+    .badge-medium {
+        background-color: #ffc107; /* Yellow */
+        color: black;
+    }
+
+    .badge-low {
+        background-color: #dc3545; /* Red */
+        color: white;
+    }
+</style>

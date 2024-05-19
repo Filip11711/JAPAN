@@ -33,10 +33,8 @@ namespace JAPAN.Controllers
                                                .FirstOrDefaultAsync(u => u.Identifikator == userId);
 
 
-            List<Statistika> statistike_tecaja = user.Statistike.Where(s => s.Idispit == null).ToList();
-            statistike_tecaja.OrderBy(v => v.Tecaj.Pozicija);
-            List<Statistika> statistike_ispita = user.Statistike.Where(s => s.Idtecaj == null).ToList();
-            statistike_tecaja.OrderBy(v => v.Ispit.Pozicija);
+            List<Statistika> statistike_tecaja = [.. user.Statistike.Where(s => s.Idispit == null).OrderBy(s => s.Tecaj.Pozicija)];
+            List<Statistika> statistike_ispita = [.. user.Statistike.Where(s => s.Idtecaj == null).OrderBy(s => s.Ispit.Pozicija)];
 
             return View(new KorisnikStatistikeViewModel
             {

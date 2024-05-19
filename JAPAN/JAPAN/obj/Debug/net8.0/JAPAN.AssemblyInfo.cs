@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JAPAN")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+19b9a038503fc33046c5d0f6b5dde68db58a6e38")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5280d4fa952d7d832a61c38dc1cff2fa850f4f77")]
 [assembly: System.Reflection.AssemblyProductAttribute("JAPAN")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JAPAN")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
