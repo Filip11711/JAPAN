@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using JAPAN.Data;
+using JAPAN.Data.Entities;
 using JAPAN.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -53,8 +54,7 @@ namespace JAPAN.Controllers
             var user = await _context.Korisnici.Include(u => u.Statistike)
                                                .FirstOrDefaultAsync(u => u.Identifikator == userId);
 
-            var ispit = await _context.Ispiti.Include(i => i.Tezina)
-                                             .Include(i => i.Pitanja)
+            var ispit = await _context.Ispiti.Include(i => i.Pitanja)
                                              .ThenInclude(p => p.Odgovori)
                                               .FirstOrDefaultAsync(i => i.Id == id);
 
@@ -70,6 +70,81 @@ namespace JAPAN.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Korisnik")]
+        [Route("Ispit/Zavrsi")]
+        public async Task<IActionResult> KorisnikZavrsiIspit(KorisnikIspitOdgovoriViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _context.Korisnici.FirstOrDefaultAsync(u => u.Id == model.UserId);
+            var ispit = await _context.Ispiti.Include(i => i.Pitanja)
+                                             .ThenInclude(p => p.Odgovori)
+                                             .FirstOrDefaultAsync(t => t.Id == model.IspitId);
+
+            int correct = 0;
+            int total = 0;
+
+            foreach (var entry in model.PitanjeOdgovori)
+            {
+                int pitanjeId = entry.Key;
+                int? odgovorId = string.IsNullOrEmpty(entry.Value.ToString()) ? null : entry.Value;
+
+                if (odgovorId != null)
+                {
+                    if (ispit.Pitanja.Where(p => p.Id == pitanjeId).First().Odgovori.Where(o => o.Id == odgovorId).First().Tocno == 1)
+                    {
+                        correct++;
+                    }
+                }
+
+                total++;
+            }
+
+            foreach (var entry in model.PitanjeOtvoreniOdgovori)
+            {
+                int pitanjeId = entry.Key;
+                string answerText = entry.Value;
+
+                if (ispit.Pitanja.Where(p => p.Id == pitanjeId).First().Odgovori.First().Tekst.ToLower() == answerText.ToLower())
+                {
+                    correct++;
+                }
+
+                total++;
+            }
+
+            string rezultat = correct.ToString() + "/" + total.ToString();
+
+            var statistika = await _context.Statistike.FirstOrDefaultAsync(s => s.Idkorisnik == model.UserId && s.Idispit == model.IspitId);
+
+            if (statistika == null)
+            {
+                statistika = new Statistika
+                {
+                    Rezultat = rezultat,
+                    Zavrseno = DateOnly.FromDateTime(DateTime.Now),
+                    Idkorisnik = model.UserId,
+                    Idispit = model.IspitId,
+                    Korisnik = user,
+                    Ispit = ispit
+                };
+            }
+            else
+            {
+                statistika.Rezultat = rezultat;
+                statistika.Zavrseno = DateOnly.FromDateTime(DateTime.Now);
+            }
+
+            _context.Update(statistika);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("KorisnikIspiti");
         }
     }
 }

@@ -3,16 +3,43 @@
     ViewData["Title"] = "Ispit";
 }
 
-<h1>Ispit</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Ispit</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>@Model.Ispit.Naziv</td>
-        </tr>
-    </tbody>
-</table>
+<h1>@Model.Ispit.Naziv</h1>
+<br/>
+<p>@Model.Ispit.Opis</p>
+<br/>
+
+<form asp-action="KorisnikZavrsiIspit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="UserId" value="@Model.Korisnik.Id" />
+    <input type="hidden" name="IspitId" value="@Model.Ispit.Id" />
+
+    @foreach (var pitanje in Model.Ispit.Pitanja)
+    {
+        <div class="pitanje">
+            <h4>@pitanje.Tekst</h4>
+            @if (pitanje.Odgovori.Count == 1)
+            {
+                <div class="form-group">
+                    <label for="otvoreni-odgovor-@pitanje.Id">Odgovor:</label>
+                    <input type="text" class="form-control" name="PitanjeOtvoreniOdgovori[@pitanje.Id]" id="otvoreni-odgovor-@pitanje.Id" />
+                </div>
+            }
+            else
+            {
+                @foreach (var odgovor in pitanje.Odgovori)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="PitanjeOdgovori[@pitanje.Id]" value="@odgovor.Id" id="pitanje-@pitanje.Id-odgovor-@odgovor.Id" />
+                        <label class="form-check-label" for="pitanje-@pitanje.Id-odgovor-@odgovor.Id">
+                            @odgovor.Tekst
+                        </label>
+                    </div>
+                }
+            }
+        </div>
+        <hr />
+    }
+    <button type="submit" class="btn btn-primary">Završi ispit</button>
+</form>
+<br/>
+<a class="btn btn-danger" asp-controller="Ispit" asp-action="KorisnikIspiti">Povratak</a>
