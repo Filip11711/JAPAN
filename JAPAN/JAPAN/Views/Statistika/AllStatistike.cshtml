@@ -1,0 +1,72 @@
+﻿@model JAPAN.ViewModels.StatistikeViewModel
+@{
+    ViewData["Title"] = "Statistike";
+}
+
+<h2>Tecaji</h2>
+<br/>
+@foreach (var tecaj in Model.TecajStatistike)
+{
+    <h3>@tecaj.Tecaj.Naziv - @tecaj.Tecaj.Tezina.Naziv</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Korisnik</th>
+                <th>Završeno</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var statistika in tecaj.Statistike)
+            {
+                <tr>
+                    <td>@statistika.Korisnik.Korisnickoime</td>
+                    <td>@statistika.Zavrseno</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<br/><br/>
+<h2>Ispiti</h2>
+<br/>
+@foreach (var ispit in Model.IspitStatistike)
+{
+    <h3>@ispit.Ispit.Naziv - @ispit.Ispit.Tezina.Naziv</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Korisnik</th>
+                <th>Završeno</th>
+                <th>Rezultat</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var statistika in ispit.Statistike)
+            {
+                <tr>
+                    <td>@statistika.Korisnik.Korisnickoime</td>
+                    <td>@statistika.Zavrseno</td>
+                    <td>
+                        @{
+                        var rezultat = statistika.Rezultat;
+                        var parts = rezultat.Split('/');
+                        var score = double.Parse(parts[0]);
+                        var total = double.Parse(parts[1]);
+                        var percentage = (score / total) * 100;
+
+                        <span class="badge
+                            @(percentage >= 80 ? "badge-high" :
+                              percentage >= 50 ? "badge-medium" :
+                              "badge-low")">
+                            @rezultat
+                        </span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+<a class="btn btn-danger" asp-controller="Home" asp-action="Index">Povratak</a>

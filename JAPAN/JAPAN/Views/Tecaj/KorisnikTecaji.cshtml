@@ -24,7 +24,7 @@
                 <td>
                     @if (Model.Rezultati.ContainsKey(tecaj.Id) && Model.Rezultati[tecaj.Id] != null)
                     {
-                        <span class="badge badge-success">Završeno</span>
+                        <span class="badge badge-high">Završeno</span>
                     }
                 </td>
                 <td>
@@ -43,10 +43,3 @@
 </table>
 <br/>
 <a class="btn btn-danger" asp-controller="Home" asp-action="Index">Povratak</a>
-
-<style>
-    .badge-success {
-        background-color: #28a745 !important;
-        color: #fff !important;
-    }
-</style>

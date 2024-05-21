@@ -42,5 +42,39 @@ namespace JAPAN.Controllers
                 Statistike_ispita = statistike_ispita
             });
         }
+
+        [Authorize(Roles = "Admin,Moderator")]
+        [Route("Statistike")]
+        public async Task<IActionResult> AllStatistike()
+        {
+            var statistike = await _context.Statistike.Include(s => s.Tecaj)
+                                                      .Include(s => s.Ispit)
+                                                      .Include(s => s.Korisnik)
+                                                      .ToListAsync();
+
+            var tecaji = await _context.Tecaji.Include(t => t.Tezina).ToListAsync();
+            var ispiti = await _context.Ispiti.Include(i => i.Tezina).ToListAsync();
+
+            var tecajStatistike = tecaji.Select(t => new TecajStatistike
+            {
+                Tecaj = t,
+                Statistike = [.. statistike.Where(s => s.Idtecaj == t.Id).OrderBy(s => s.Idkorisnik)]
+            }).ToList();
+
+            var ispitStatistike = ispiti.Select(i => new IspitStatistike
+            {
+                Ispit = i,
+                Statistike = [.. statistike.Where(s => s.Idispit == i.Id).OrderBy(s => s.Idkorisnik)]
+            }).ToList();
+
+            var viewModel = new StatistikeViewModel
+            {
+                TecajStatistike = tecajStatistike,
+                IspitStatistike = ispitStatistike
+            };
+
+            return View(viewModel);
+
+        }
     }
 }
