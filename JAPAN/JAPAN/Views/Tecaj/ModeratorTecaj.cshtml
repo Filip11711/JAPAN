@@ -1,12 +1,12 @@
-﻿@model JAPAN.ViewModels.KorisnikTecajViewModel
+﻿@model JAPAN.ViewModels.ModeratorTecajViewModel
 @{
     ViewData["Title"] = "Tecaj";
 }
 
 <h1>@Model.Tecaj.Naziv</h1>
-<br/>
+<br />
 <h3>@Model.Tecaj.Opis</h3>
-<br/>
+<br />
 
 <div class="sadrzaj-item">
     @if (Model.Tecaj.Tipsadrzaja.Naziv == "Tekst")
@@ -40,15 +40,6 @@
         </video>
     }
 </div>
-<br/>
-@if(Model.Rezultat == null)
-{
-    <form asp-action="KorisnikTecajZavrsi" method="post" class="mt-4">
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="userId" value="@Model.Korisnik.Id" />
-        <input type="hidden" name="tecajId" value="@Model.Tecaj.Id" />
-        <button type="submit" class="btn btn-success">Završi tečaj</button>
-    </form>
-    <br />
-}
-<a class="btn btn-secondary" asp-controller="Tecaj" asp-action="KorisnikTecaji">Povratak</a>
+<br />
+<a class="btn btn-secondary" asp-controller="Tecaj" asp-action="ModeratorTecaji">Povratak</a>
+

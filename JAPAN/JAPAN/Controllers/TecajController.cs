@@ -102,5 +102,62 @@ namespace JAPAN.Controllers
             return RedirectToAction("KorisnikTecaji");
         }
 
+        [Authorize(Roles = "Moderator")]
+        [Route("Tecaji")]
+        public async Task<IActionResult> ModeratorTecaji()
+        {
+            var tecaji = await _context.Tecaji.Include(t => t.Tipsadrzaja)
+                                              .Include(t => t.Tezina)
+                                              .OrderBy(t => t.Pozicija)
+                                              .ToListAsync();
+
+            var viewModel = new ModeratorTecajiViewModel
+            {
+                Tecaji = tecaji
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize(Roles = "Moderator")]
+        [HttpPost]
+        [Route("Moderator/Tecaji/UpdateOrder")]
+        public async Task<IActionResult> PromjeniPoredak([FromBody] List<TecajPoredakViewModel> poredak)
+        {
+            foreach (var item in poredak)
+            {
+                var tecaj = await _context.Tecaji.FindAsync(item.Id);
+                if (tecaj != null)
+                {
+                    tecaj.Pozicija = item.Pozicija;
+                    _context.Tecaji.Update(tecaj);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [Authorize(Roles = "Moderator")]
+        [Route("Tecaji/{id}")]
+        public async Task<IActionResult> ModeratorTecaj(int id)
+        {
+            var tecaj = await _context.Tecaji.Include(t => t.Tipsadrzaja)
+                                              .Include(t => t.Tezina)
+                                              .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (tecaj == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new ModeratorTecajViewModel
+            {
+                Tecaj = tecaj
+            };
+
+            return View(viewModel);
+        }
     }
 }

@@ -1,0 +1,88 @@
+﻿@model JAPAN.ViewModels.ModeratorTecajiViewModel
+@{
+    ViewData["Title"] = "Tečaji";
+}
+
+<h1 class="my-4">Tečaji</h1>
+
+<form id="orderForm" method="post" asp-controller="Tecaj" asp-action="PromjeniPoredak">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Opis</th>
+                <th>Težina</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="sortable">
+            @foreach (var tecaj in Model.Tecaji)
+            {
+                <tr data-id="@tecaj.Id">
+                    <td>@tecaj.Naziv</td>
+                    <td>@tecaj.Opis</td>
+                    <td>@tecaj.Tezina.Naziv</td>
+                    <td>
+                        <a class="btn btn-success" asp-controller="Tecaj" asp-action="ModeratorTecaj" asp-route-id="@tecaj.Id">Prikaži</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" asp-controller="Tecaj" asp-action="ModeratorTecajUredi" asp-route-id="@tecaj.Id">Uredi</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" asp-controller="Tecaj" asp-action="ModeratorTecajObrisi" asp-route-id="@tecaj.Id">Obriši</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-primary">Spremi poredak</button>
+        <button type="button" id="restoreOrder" class="btn btn-dark">Vrati poredak</button>
+    </div>
+</form>
+<br />
+<a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Povratak</a>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            var originalOrder = $("#sortable").html();
+
+            $("#sortable").sortable();
+            $("#sortable").disableSelection();
+
+            $("#orderForm").on("submit", function (e) {
+                e.preventDefault();
+                var order = [];
+                $("#sortable tr").each(function (index, element) {
+                    order.push({
+                        Id: $(element).data("id"),
+                        Pozicija: index + 1
+                    });
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("PromjeniPoredak", "Tecaj")",
+                    contentType: "application/json",
+                    data: JSON.stringify(order),
+                    success: function (response) {
+                        alert("Poredak uspješno promijenjen!");
+                    },
+                    error: function (error) {
+                        console.error("Greška u promjeni poretka", error);
+                    }
+                });
+            });
+
+            $("#restoreOrder").on("click", function () {
+                $("#sortable").html(originalOrder);
+                $("#sortable").sortable("refresh");
+            });
+        });
+    </script>
+}
