@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,6 +19,41 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav ms-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Moderator")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Tecaj" asp-action="ModeratorTecaji">Tečaji</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Ispit" asp-action="ModeratorIspiti">Ispiti</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Statistika" asp-action="AllStatistike">Statistike</a>
+                                </li>
+                            }
+                            else if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Korisnik")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Tecaj" asp-action="KorisnikTecaji">Tečaji</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Ispit" asp-action="KorisnikIspiti">Ispiti</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Statistika" asp-action="KorisnikStatistike">Statistike</a>
+                                </li>
+                            }
+                            else if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Statistika" asp-action="AllStatistike">Statistike</a>
+                                </li>
+                            }
+                        }
+                    </ul>
                     <ul class="nav navbar-nav ms-auto">
                         @if (User.Identity.IsAuthenticated)
                         {
