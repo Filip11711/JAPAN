@@ -31,7 +31,7 @@
                         <a class="btn btn-warning" asp-controller="Tecaj" asp-action="ModeratorTecajUredi" asp-route-id="@tecaj.Id">Uredi</a>
                     </td>
                     <td>
-                        <a class="btn btn-danger" asp-controller="Tecaj" asp-action="ModeratorTecajObrisi" asp-route-id="@tecaj.Id">Obriši</a>
+                        <a class="btn btn-danger delete-button" data-tecaj-id="@tecaj.Id">Obriši</a>
                     </td>
                 </tr>
             }
@@ -42,6 +42,9 @@
         <button type="button" id="restoreOrder" class="btn btn-dark">Vrati poredak</button>
     </div>
 </form>
+<br />
+<a class="btn btn-success" asp-controller="Tecaj" asp-action="ModeratorTecajNovi">Novi tečaj</a>
+<br />
 <br />
 <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Povratak</a>
 
@@ -64,6 +67,7 @@
                         Pozicija: index + 1
                     });
                 });
+                originalOrder = $("#sortable").html();
 
                 $.ajax({
                     type: "POST",
@@ -83,6 +87,23 @@
                 $("#sortable").html(originalOrder);
                 $("#sortable").sortable("refresh");
             });
+
+            $(".delete-button").click(function () {
+                var tecajId = $(this).data("tecaj-id");
+                if (confirm("Are you sure you want to delete this Tecaj?")) {
+                    $.ajax({
+                        url: "Tecaji/Obrisi/" + tecajId,
+                        type: "DELETE",
+                        success: function (response) {
+                            window.location.href = "/Tecaji";
+                        },
+                        error: function (error) {
+                            console.error("Greška u brisanju tečaja", error);
+                        }
+                    });
+                }
+            });
         });
+        
     </script>
 }

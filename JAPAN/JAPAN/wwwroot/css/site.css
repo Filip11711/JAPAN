@@ -35,3 +35,7 @@ body {
     background-color: #dc3545; /* Red */
     color: white;
 }
+
+.btn-group {
+    gap: 10px;
+}

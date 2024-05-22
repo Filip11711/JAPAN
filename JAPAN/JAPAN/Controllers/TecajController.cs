@@ -4,6 +4,7 @@ using JAPAN.Data.Entities;
 using JAPAN.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace JAPAN.Controllers
@@ -158,6 +159,119 @@ namespace JAPAN.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [Authorize(Roles = "Moderator")]
+        [Route("Tecaji/Uredi/{id}")]
+        public async Task<IActionResult> ModeratorTecajUredi(int id)
+        {
+            var tecaj = await _context.Tecaji.FindAsync(id);
+            if (tecaj == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new UrediTecajViewModel
+            {
+                Id = tecaj.Id,
+                Naziv = tecaj.Naziv,
+                Opis = tecaj.Opis,
+                Sadrzaj = tecaj.Sadrzaj,
+                TezinaId = tecaj.Idtezina,
+                TipSadrzajaId = tecaj.Idtipsadrzaj
+            };
+
+            ViewBag.TipoviSadrzaja = new SelectList(_context.TipoviSadrzaja, "Id", "Naziv", tecaj.Idtipsadrzaj);
+            ViewBag.Tezine = new SelectList(_context.Tezine, "Id", "Naziv", tecaj.Idtezina);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Moderator")]
+        [Route("Tecaj/Uredeno")]
+        public async Task<IActionResult> ModeratorUredeno(UrediTecajViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var tecaj = await _context.Tecaji.FindAsync(viewModel.Id);
+            if (tecaj == null)
+            {
+                return NotFound();
+            }
+
+            tecaj.Naziv = viewModel.Naziv;
+            tecaj.Opis = viewModel.Opis;
+            tecaj.Sadrzaj = viewModel.Sadrzaj;
+            tecaj.Idtezina = viewModel.TezinaId;
+            tecaj.Idtipsadrzaj = viewModel.TipSadrzajaId;
+
+            _context.Update(tecaj);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ModeratorTecaji");
+        }
+
+        [Authorize(Roles = "Moderator")]
+        [Route("Tecaji/Novi")]
+        public IActionResult ModeratorTecajNovi()
+        {
+            var viewModel = new NoviTecajViewModel
+            {
+                TezinaId = 1,
+                TipSadrzajaId = 1
+            };
+
+            ViewBag.TipoviSadrzaja = new SelectList(_context.TipoviSadrzaja, "Id", "Naziv", 1);
+            ViewBag.Tezine = new SelectList(_context.Tezine, "Id", "Naziv", 1);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Moderator")]
+        [Route("Tecaj/Novo")]
+        public async Task<IActionResult> ModeratorNovo(UrediTecajViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var tecaj = new Tecaj();
+
+            tecaj.Naziv = viewModel.Naziv;
+            tecaj.Opis = viewModel.Opis;
+            tecaj.Sadrzaj = viewModel.Sadrzaj;
+            tecaj.Kreirano = DateOnly.FromDateTime(DateTime.Now);
+            tecaj.Pozicija = _context.Tecaji.ToList().Last().Pozicija + 1;
+            tecaj.Idtezina = viewModel.TezinaId;
+            tecaj.Idtipsadrzaj = viewModel.TipSadrzajaId;
+
+            _context.Add(tecaj);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ModeratorTecaji");
+        }
+
+        [Authorize(Roles = "Moderator")]
+        [HttpDelete]
+        [Route("Tecaji/Obrisi/{id}")]
+        public async Task<IActionResult> ModeratorObrisiTecaj(int id)
+        {
+            var tecaj = await _context.Tecaji.FindAsync(id);
+            if (tecaj == null)
+            {
+                return NotFound();
+            }
+
+            _context.Tecaji.Remove(tecaj);
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }

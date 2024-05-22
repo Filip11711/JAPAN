@@ -41,5 +41,11 @@
     }
 </div>
 <br />
+<div class="btn-group" role="group">
+    <a class="btn btn-warning" asp-controller="Tecaj" asp-action="ModeratorTecajUredi" asp-route-id="@Model.Tecaj.Id">Uredi</a>
+    <a class="btn btn-danger" asp-controller="Tecaj" asp-action="ModeratorTecajObrisi" asp-route-id="@Model.Tecaj.Id">Obriši</a>
+</div>
+<br/>
+<br/>
 <a class="btn btn-secondary" asp-controller="Tecaj" asp-action="ModeratorTecaji">Povratak</a>
 

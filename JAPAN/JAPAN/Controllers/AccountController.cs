@@ -99,5 +99,9 @@ namespace JAPAN.Controllers
             });
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
