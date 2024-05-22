@@ -234,7 +234,7 @@ namespace JAPAN.Controllers
         [HttpPost]
         [Authorize(Roles = "Moderator")]
         [Route("Tecaj/Novo")]
-        public async Task<IActionResult> ModeratorNovo(UrediTecajViewModel viewModel)
+        public async Task<IActionResult> ModeratorNovo(NoviTecajViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

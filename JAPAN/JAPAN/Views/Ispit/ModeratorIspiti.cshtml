@@ -1,14 +1,14 @@
-﻿@model JAPAN.ViewModels.ModeratorTecajiViewModel
+﻿@model JAPAN.ViewModels.ModeratorIspitiViewModel
 @{
-    ViewData["Title"] = "Tečaji";
+    ViewData["Title"] = "Ispiti";
 }
 
-<h1 class="my-4">Tečaji</h1>
+<h1 class="my-4">Ispiti</h1>
 
 <br />
-<a class="btn btn-success" asp-controller="Tecaj" asp-action="ModeratorTecajNovi">Novi tečaj</a>
+<a class="btn btn-success" asp-controller="Ispit" asp-action="ModeratorIspitNovi">Novi ispit</a>
 <br /><br />
-<form id="orderForm" method="post" asp-controller="Tecaj" asp-action="PromjeniPoredak">
+<form id="orderForm" method="post" asp-controller="Ispit" asp-action="PromjeniPoredak">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -21,20 +21,20 @@
             </tr>
         </thead>
         <tbody id="sortable">
-            @foreach (var tecaj in Model.Tecaji)
+            @foreach (var ispit in Model.Ispiti)
             {
-                <tr data-id="@tecaj.Id">
-                    <td>@tecaj.Naziv</td>
-                    <td>@tecaj.Opis</td>
-                    <td>@tecaj.Tezina.Naziv</td>
+                <tr data-id="@ispit.Id">
+                    <td>@ispit.Naziv</td>
+                    <td>@ispit.Opis</td>
+                    <td>@ispit.Tezina.Naziv</td>
                     <td>
-                        <a class="btn btn-success" asp-controller="Tecaj" asp-action="ModeratorTecaj" asp-route-id="@tecaj.Id">Prikaži</a>
+                        <a class="btn btn-success" asp-controller="Ispit" asp-action="ModeratorIspit" asp-route-id="@ispit.Id">Prikaži</a>
                     </td>
                     <td>
-                        <a class="btn btn-warning" asp-controller="Tecaj" asp-action="ModeratorTecajUredi" asp-route-id="@tecaj.Id">Uredi</a>
+                        <a class="btn btn-warning" asp-controller="Ispit" asp-action="ModeratorIspitUredi" asp-route-id="@ispit.Id">Uredi</a>
                     </td>
                     <td>
-                        <a class="btn btn-danger delete-button" data-tecaj-id="@tecaj.Id">Obriši</a>
+                        <a class="btn btn-danger delete-button" data-ispit-id="@ispit.Id">Obriši</a>
                     </td>
                 </tr>
             }
@@ -72,7 +72,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@Url.Action("PromjeniPoredak", "Tecaj")",
+                    url: "@Url.Action("PromjeniPoredak", "Ispit")",
                     contentType: "application/json",
                     data: JSON.stringify(order),
                     success: function (response) {
@@ -90,21 +90,21 @@
             });
 
             $(".delete-button").click(function () {
-                var tecajId = $(this).data("tecaj-id");
-                if (confirm("Jeste li sigurni da želite izbrisati ovaj tečaj?")) {
+                var ispitId = $(this).data("ispit-id");
+                if (confirm("Jeste li sigurni da želite izbrisati ovaj ispit?")) {
                     $.ajax({
-                        url: "Tecaji/Obrisi/" + tecajId,
+                        url: "Ispiti/Obrisi/" + ispitId,
                         type: "DELETE",
                         success: function (response) {
-                            window.location.href = "/Tecaji";
+                            window.location.href = "/Ispiti";
                         },
                         error: function (error) {
-                            console.error("Greška u brisanju tečaja", error);
+                            console.error("Greška u brisanju ispita", error);
                         }
                     });
                 }
             });
         });
-        
     </script>
 }
+

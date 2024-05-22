@@ -1,0 +1,64 @@
+﻿@model JAPAN.ViewModels.ModeratorIspitViewModel
+
+@{
+    ViewData["Title"] = "Ispit Detalji";
+}
+
+<h1>@Model.Ispit.Naziv</h1>
+<br />
+<h3>@Model.Ispit.Opis</h3>
+<br />
+<h3>Težina: @Model.Ispit.Tezina.Naziv</h3>
+<br />
+
+<div>
+    @foreach (var pitanje in Model.Ispit.Pitanja)
+    {
+        <div class="card my-3">
+            <div class="card-header">
+                <h5>@pitanje.Tekst</h5>
+            </div>
+            <div class="card-body">
+                <h6>Odgovori:</h6>
+                <ul>
+                    @foreach (var odgovor in pitanje.Odgovori)
+                    {
+                        <li>@odgovor.Tekst</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+</div>
+<br />
+<div class="btn-group" role="group">
+    <a class="btn btn-warning" asp-controller="Ispit" asp-action="ModeratorIspitUredi" asp-route-id="@Model.Ispit.Id">Uredi</a>
+    <a class="btn btn-danger delete-button" data-ispit-id="@Model.Ispit.Id">Obriši</a>
+</div>
+<br />
+<br />
+<a class="btn btn-secondary" asp-controller="Ispit" asp-action="ModeratorIspiti">Povratak</a>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            $(".delete-button").click(function () {
+                var ispitId = $(this).data("ispit-id");
+                if (confirm("Jeste li sigurni da želite izbrisati ovaj ispit?")) {
+                    $.ajax({
+                        url: "Obrisi/" + ispitId,
+                        type: "DELETE",
+                        success: function (response) {
+                            window.location.href = "/Ispiti";
+                        },
+                        error: function (error) {
+                            console.error("Greška u brisanju ispita", error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

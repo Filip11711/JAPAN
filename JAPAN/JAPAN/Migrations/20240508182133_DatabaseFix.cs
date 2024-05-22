@@ -169,12 +169,14 @@ namespace JAPAN.Migrations
                         name: "ispitpitanje_idispit_fkey",
                         column: x => x.idispit,
                         principalTable: "ispit",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "ispitpitanje_idpitanje_fkey",
                         column: x => x.idpitanje,
                         principalTable: "pitanje",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

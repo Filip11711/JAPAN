@@ -49,6 +49,9 @@
                             else if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Admin")
                             {
                                 <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Korisnici">Korisnici</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Statistika" asp-action="AllStatistike">Statistike</a>
                                 </li>
                             }

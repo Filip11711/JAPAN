@@ -121,11 +121,11 @@ public partial class JapanContext : DbContext
                     "Ispitpitanje",
                     r => r.HasOne<Pitanje>().WithMany()
                         .HasForeignKey("Idpitanje")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("ispitpitanje_idpitanje_fkey"),
                     l => l.HasOne<Ispit>().WithMany()
                         .HasForeignKey("Idispit")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("ispitpitanje_idispit_fkey"),
                     j =>
                     {
