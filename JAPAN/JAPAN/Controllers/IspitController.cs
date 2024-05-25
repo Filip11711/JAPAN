@@ -276,5 +276,77 @@ namespace JAPAN.Controllers
 
             return RedirectToAction("ModeratorIspiti");
         }
+
+        [Authorize(Roles = "Moderator")]
+        [Route("Ispiti/Uredi/{id}")]
+        public IActionResult ModeratorIspitUredi(int id)
+        {
+            var ispit = _context.Ispiti.Include(i => i.Pitanja).FirstOrDefault(i => i.Id == id);
+            if (ispit == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new UrediIspitViewModel
+            {
+                Id = ispit.Id,
+                Naziv = ispit.Naziv,
+                Opis = ispit.Opis,
+                TezinaId = ispit.Idtezina,
+                PitanjaId = ispit.Pitanja.Select(p => p.Id).ToList()
+            };
+
+            ViewBag.Tezine = new SelectList(_context.Tezine, "Id", "Naziv");
+            ViewBag.Pitanja = _context.Pitanja.Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.Tekst,
+                Selected = viewModel.PitanjaId.Contains(p.Id)
+            }).ToList();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Moderator")]
+        [Route("Ispit/Uredeno")]
+        public async Task<IActionResult> ModeratorUredeno(UrediIspitViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ispit = _context.Ispiti.Include(i => i.Pitanja).FirstOrDefault(i => i.Id == model.Id);
+            if (ispit == null)
+            {
+                return NotFound();
+            }
+
+            ispit.Naziv = model.Naziv;
+            ispit.Opis = model.Opis;
+            ispit.Idtezina = model.TezinaId;
+            foreach (var pitanje in ispit.Pitanja)
+            {
+                pitanje.Ispiti.Remove(ispit);
+                _context.Update(pitanje);
+            }
+            ispit.Pitanja.Clear();
+            foreach (int pitanjeId in model.PitanjaId)
+            {
+                var pitanje = await _context.Pitanja.FirstOrDefaultAsync(p => p.Id == pitanjeId);
+                if (pitanje != null)
+                {
+                    ispit.Pitanja.Add(pitanje);
+                    pitanje.Ispiti.Add(ispit);
+                    _context.Update(pitanje);
+                }
+            }
+
+            _context.Update(ispit);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ModeratorIspiti");
+        }
     }
 }

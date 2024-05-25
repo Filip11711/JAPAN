@@ -1,0 +1,71 @@
+﻿@model JAPAN.ViewModels.ModeratorPitanjeViewModel
+@{
+    ViewData["Title"] = "Pitanje";
+}
+
+<h3>@Model.Pitanje.Tekst</h3>
+<br />
+<br />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Odgovor</th>
+            @if (Model.Pitanje.Odgovori.Count > 1)
+            {
+                <th>Točan</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var odgovor in Model.Pitanje.Odgovori) 
+        {
+            <tr>
+                <td>@odgovor.Tekst</td>
+                @if (Model.Pitanje.Odgovori.Count > 1)
+                {
+                    <td>
+                        @if (odgovor.Tocno == 1)
+                        {
+                            <p>Točan</p>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<div class="btn-group" role="group">
+    <a class="btn btn-warning" asp-controller="Pitanje" asp-action="ModeratorPitanjeUredi" asp-route-id="@Model.Pitanje.Id">Uredi</a>
+    <a class="btn btn-danger delete-button" data-pitanje-id="@Model.Pitanje.Id">Obriši</a>
+</div>
+<br />
+<br />
+<a class="btn btn-secondary" asp-controller="Pitanje" asp-action="ModeratorPitanja">Povratak</a>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            $(".delete-button").click(function () {
+                var pitanjeId = $(this).data("pitanje-id");
+                if (confirm("Jeste li sigurni da želite izbrisati ovo pitanje?")) {
+                    $.ajax({
+                        url: "Obrisi/" + pitanjeId,
+                        type: "DELETE",
+                        success: function (response) {
+                            window.location.href = "/Pitanja";
+                        },
+                        error: function (error) {
+                            console.error("Greška u brisanju pitanja", error);
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+}

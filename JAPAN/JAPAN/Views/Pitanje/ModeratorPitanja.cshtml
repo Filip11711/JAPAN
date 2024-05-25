@@ -1,0 +1,67 @@
+﻿@model JAPAN.ViewModels.ModeratorPitanjaViewModel
+@{
+    ViewData["Title"] = "Pitanja";
+}
+
+<h1 class="my-4">Pitanja</h1>
+
+<br />
+<a class="btn btn-success" asp-controller="Pitanje" asp-action="ModeratorPitanjeNovi">Novo pitanje</a>
+<br />
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Pitanje</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pitanje in Model.Pitanja)
+        {
+            <tr>
+                <td>@pitanje.Id</td>
+                <td>@pitanje.Tekst</td>
+                <td></td>
+                <td class="d-flex">
+                    <div class="btn-group ms-auto" role="group">
+                        <a class="btn btn-success" asp-controller="Pitanje" asp-action="ModeratorPitanje" asp-route-id="@pitanje.Id">Prikaži</a>
+                        <a class="btn btn-warning" asp-controller="Pitanje" asp-action="ModeratorPitanjeUredi" asp-route-id="@pitanje.Id">Uredi</a>
+                        <a class="btn btn-danger delete-button" data-pitanje-id="@pitanje.Id">Obriši</a>
+                    </div>
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Povratak</a>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            $(".delete-button").click(function () {
+                var pitanjeId = $(this).data("pitanje-id");
+                if (confirm("Jeste li sigurni da želite izbrisati ovo pitanje?")) {
+                    $.ajax({
+                        url: "Pitanja/Obrisi/" + pitanjeId,
+                        type: "DELETE",
+                        success: function (response) {
+                            window.location.href = "/Pitanja";
+                        },
+                        error: function (error) {
+                            console.error("Greška u brisanju pitanja", error);
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+}
+

@@ -1,0 +1,106 @@
+﻿@model JAPAN.ViewModels.NovoPitanjeViewModel
+
+@{
+    ViewData["Title"] = "Novo Pitanje";
+}
+
+<h1>Novo Pitanje</h1>
+<br />
+
+<form asp-action="ModeratorNoviPitanje" method="post">
+    <div class="form-group">
+        <label asp-for="Pitanje.Tekst" class="control-label"></label>
+        <input asp-for="Pitanje.Tekst" class="form-control" />
+        <span asp-validation-for="Pitanje.Tekst" class="text-danger"></span>
+    </div>
+
+    <br />
+    <h4>Odgovori</h4>
+    <br />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tekst</th>
+                <th class="text-center">Točan</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="odgovori-list">
+            @for (int i = 0; i < Model.Odgovori.Count; i++)
+            {
+                <tr class="odgovor-container">
+                    <td>
+                        <input asp-for="Odgovori[i].Tekst" class="form-control" />
+                        <span asp-validation-for="Odgovori[i].Tekst" class="text-danger"></span>
+                    </td>
+                    <td class="text-center">
+                        <input type="hidden" name="Odgovori[@i].Pitanje" value="0" />
+                        <input type="hidden" name="Odgovori[@i].Tocno" value="0" />
+                        <input type="checkbox" class="form-check-input tocno-checkbox" id="Odgovori[@i]Tocno" data-hidden-id="Odgovori[@i].Tocno" value="1" />
+                        <span asp-validation-for="Odgovori[@i].Tocno" class="text-danger"></span>
+                    </td>
+                    <td class="text-center" style="width:100px">
+                            <button type="button" class="btn btn-danger btn-remove-odgovor">Ukloni</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <button type="button" class="btn btn-success" id="add-odgovor">Dodaj odgovor</button>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Spremi promjene" class="btn btn-primary" />
+        <a asp-action="ModeratorPitanja" class="btn btn-secondary">Odustani</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('add-odgovor').addEventListener('click', function () {
+            var index = document.querySelectorAll('#odgovori-list tr.odgovor-container').length;
+            var newOdgovor = `
+                        <tr class="odgovor-container">
+                            <td>
+                                <input type="text" class="form-control" id="Odgovori_${index}__Tekst" name="Odgovori[${index}].Tekst" />
+                                <span class="text-danger" data-valmsg-for="Odgovori[${index}].Tekst" data-valmsg-replace="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <input type="hidden" name="Odgovori[${index}].Pitanje" value="0" />
+                                <input type="hidden" name="Odgovori[${index}].Tocno" value="0" />
+                                <input type="checkbox" class="form-check-input tocno-checkbox" id="Odgovori_${index}__Tocno" data-hidden-id="Odgovori[${index}].Tocno" value="1" />
+                                <span class="text-danger" data-valmsg-for="Odgovori[${index}].Tocno" data-valmsg-replace="true"></span>
+                            </td>
+                                <td class="text-center" style="width:100px">
+                                <button type="button" class="btn btn-danger btn-remove-odgovor">Ukloni</button>
+                            </td>
+                        </tr>`;
+            document.getElementById('odgovori-list').insertAdjacentHTML('beforeend', newOdgovor);
+            initializeCheckboxEvent();
+        });
+
+        document.getElementById('odgovori-list').addEventListener('click', function (e) {
+            if (e.target && e.target.matches('.btn-remove-odgovor')) {
+                e.target.closest('tr').remove();
+            }
+        });
+
+        function initializeCheckboxEvent() {
+            document.querySelectorAll('.tocno-checkbox').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    var hiddenInput = document.querySelector(`input[name="${this.dataset.hiddenId}"]`);
+                    if (this.checked) {
+                        hiddenInput.value = '1';
+                    } else {
+                        hiddenInput.value = '0';
+                    }
+                });
+            });
+        }
+
+        initializeCheckboxEvent();
+    </script>
+}
