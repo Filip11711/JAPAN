@@ -84,20 +84,20 @@ namespace JAPAN.Controllers
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            var user = await _context.Korisnici.Include(u => u.Statistike)
-                                               .ThenInclude(v => v.Tecaj)
-                                               .Include(u => u.Statistike)
-                                               .ThenInclude(v => v.Ispit)
-                                               .Include(u => u.Uloga)
+            var user = await _context.Korisnici.Include(u => u.Uloga)
                                                .FirstOrDefaultAsync(u => u.Identifikator == userId);
 
             return View(new UserProfileViewModel
             {
-                Identifikator = userId,
-                Korisnickoime = user.Korisnickoime,
-                Uloga = user.Uloga.Naziv
+                Korisnik = user
             });
         }
+
+        /*[Authorize]
+        public async Task<IActionResult> UrediProfile(UserProfileViewModel model)
+        {
+
+        }*/
 
         public IActionResult AccessDenied()
         {

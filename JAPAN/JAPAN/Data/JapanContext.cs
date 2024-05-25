@@ -152,6 +152,19 @@ public partial class JapanContext : DbContext
             entity.Property(e => e.Korisnickoime)
                 .HasMaxLength(50)
                 .HasColumnName("korisnickoime");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .HasColumnName("email");
+            entity.Property(e => e.Ime)
+                .HasMaxLength(50)
+                .HasColumnName("ime");
+            entity.Property(e => e.Prezime)
+                .HasMaxLength(50)
+                .HasColumnName("prezime");
+            entity.Property(e => e.DatumRodenja).HasColumnName("datumrodenja");
+            entity.Property(e => e.Preporuka)
+                .HasMaxLength(50)
+                .HasColumnName("preporuka");
 
             entity.HasIndex(e => e.Korisnickoime).IsUnique();
             entity.HasIndex(e => e.Id).IsUnique();

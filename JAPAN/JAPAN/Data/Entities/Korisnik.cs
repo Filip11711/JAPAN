@@ -11,6 +11,16 @@ public partial class Korisnik
 
     public int Id { get; set; }
 
+    public string? Email { get; set; } = null!;
+
+    public string? Ime { get; set; } = null!;
+
+    public string? Prezime { get; set; } = null!;
+
+    public DateOnly? DatumRodenja { get; set; }
+
+    public string? Preporuka { get; set; } = "Početnik";
+
     public int Iduloga { get; set; }
 
     public virtual ICollection<ForumOdgovor> ForumOdgovori { get; set; } = new List<ForumOdgovor>();

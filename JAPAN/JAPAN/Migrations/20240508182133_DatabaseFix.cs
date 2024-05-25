@@ -143,6 +143,11 @@ namespace JAPAN.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     korisnickoime = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     identifikator = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    ime = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    prezime = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    datumrodenja = table.Column<DateOnly>(type: "date", nullable: true),
+                    preporuka = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     iduloga = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
