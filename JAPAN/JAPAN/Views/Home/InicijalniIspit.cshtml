@@ -1,0 +1,35 @@
+﻿@model JAPAN.ViewModels.KorisnikIspitViewModel
+@{
+    ViewData["Title"] = "Inicijalni Ispit";
+}
+
+<h1>@Model.Ispit.Naziv</h1>
+<br />
+<p>@Model.Ispit.Opis</p>
+<br />
+
+<form asp-action="ZavrsiInicijalniIspit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="UserId" value="@Model.Korisnik.Id" />
+    <input type="hidden" name="IspitId" value="@Model.Ispit.Id" />
+
+    @foreach (var pitanje in Model.Ispit.Pitanja)
+    {
+        <div class="pitanje">
+            <h4>@pitanje.Tekst</h4>
+                @foreach (var odgovor in pitanje.Odgovori)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="PitanjeOdgovori[@pitanje.Id]" value="@odgovor.Id" id="pitanje-@pitanje.Id-odgovor-@odgovor.Id" />
+                        <label class="form-check-label" for="pitanje-@pitanje.Id-odgovor-@odgovor.Id">
+                            @odgovor.Tekst
+                        </label>
+                    </div>
+                }
+        </div>
+        <hr />
+    }
+    <button type="submit" class="btn btn-primary">Završi ispit</button>
+</form>
+<br />
+<a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Povratak</a>

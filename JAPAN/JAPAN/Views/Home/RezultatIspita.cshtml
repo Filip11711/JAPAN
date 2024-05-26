@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Rezultat";
+}
+
+<div class="container mt-5">
+    <h2>Rezultat Inicijalnog Ispita</h2>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Vaš rezultat:</h5>
+                    <p class="card-text">Rezultat: @ViewBag.Rezultat</p>
+                    <h5 class="card-title">Preporuka težine:</h5>
+                    <p class="card-text">Rezultat: @ViewBag.Preporuka</p>
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Povratak na početnu stranicu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
