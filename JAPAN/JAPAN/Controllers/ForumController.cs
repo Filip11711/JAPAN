@@ -1,9 +1,11 @@
 ﻿using JAPAN.Data;
 using JAPAN.Data.Entities;
+using JAPAN.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace JAPAN.Controllers
@@ -47,24 +49,43 @@ namespace JAPAN.Controllers
         }
 
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            var user = await _context.Korisnici.FirstOrDefaultAsync(u => u.Identifikator == userId);
+
+            var viewModel = new ForumPitanjeViewModel 
+            { 
+                UserId = user.Id
+            };
+
+            return View(viewModel);
         }
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Naslov,Sadrzaj,Idkorisnik")] ForumPitanje forumPitanje)
+        public async Task<IActionResult> Create(ForumPitanjeViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                forumPitanje.Kreirano = DateOnly.FromDateTime(DateTime.Now);
-                _context.Add(forumPitanje);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(AllForum));
+                return BadRequest(ModelState);
             }
-            return View(forumPitanje);
+
+            var forumPitanje = new ForumPitanje
+            {
+                Naslov = model.Naslov,
+                Sadrzaj = model.Sadrzaj,
+                Kreirano = DateOnly.FromDateTime(DateTime.Now),
+                Idkorisnik = model.UserId
+            };
+
+            _context.ForumPitanja.Add(forumPitanje);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("AllForum");
+
         }
 
         [Authorize]
@@ -72,27 +93,22 @@ namespace JAPAN.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddResponse(int ForumPitanjeId, string Sadrzaj)
         {
-            var forumPitanje = await _context.ForumPitanja
-                .Include(fp => fp.ForumOdgovori)
-                .FirstOrDefaultAsync(fp => fp.Id == ForumPitanjeId);
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            if (forumPitanje == null)
-            {
-                return NotFound();
-            }
+            var user = await _context.Korisnici.FirstOrDefaultAsync(u => u.Identifikator == userId);
 
             var forumOdgovor = new ForumOdgovor
             {
                 Idpitanje = ForumPitanjeId,
                 Sadrzaj = Sadrzaj,
-                Idkorisnik = 2,
+                Idkorisnik = user.Id,
                 Kreirano = DateOnly.FromDateTime(DateTime.Now)
             };
 
-            forumPitanje.ForumOdgovori.Add(forumOdgovor);
+            _context.ForumOdgovori.Add(forumOdgovor);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Odgovori), new { id = ForumPitanjeId });
+            return RedirectToAction("Odgovori", "Forum", new { id = ForumPitanjeId });
         }
     }
 }
