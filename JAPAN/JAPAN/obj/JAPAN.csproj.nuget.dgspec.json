@@ -54,6 +54,18 @@
               "target": "Package",
               "version": "[1.4.1, )"
             },
+            "AutoFixture": {
+              "target": "Package",
+              "version": "[4.18.1, )"
+            },
+            "AutoFixture.AutoMoq": {
+              "target": "Package",
+              "version": "[4.18.1, )"
+            },
+            "AutoFixture.Xunit2": {
+              "target": "Package",
+              "version": "[4.18.1, )"
+            },
             "FluentValidation": {
               "target": "Package",
               "version": "[11.9.1, )"

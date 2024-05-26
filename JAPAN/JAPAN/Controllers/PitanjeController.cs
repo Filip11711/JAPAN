@@ -97,6 +97,13 @@ namespace JAPAN.Controllers
                 }
             }
 
+            var tocniCount = viewModel.Odgovori.Count(odgovor => odgovor.Tocno == 1);
+            if (tocniCount != 1)
+            {
+                ModelState.AddModelError("", "There must be exactly one Odgovor with Tocan set to 1.");
+                return BadRequest(ModelState);
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -157,6 +164,13 @@ namespace JAPAN.Controllers
                 {
                     ModelState[key].ValidationState = ModelValidationState.Valid;
                 }
+            }
+
+            var tocniCount = viewModel.Odgovori.Count(odgovor => odgovor.Tocno == 1);
+            if (tocniCount != 1)
+            {
+                ModelState.AddModelError("", "There must be exactly one Odgovor with Tocan set to 1.");
+                return BadRequest(ModelState);
             }
 
             if (!ModelState.IsValid)

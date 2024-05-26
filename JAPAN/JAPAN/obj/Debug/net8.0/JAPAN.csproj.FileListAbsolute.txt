@@ -249,3 +249,7 @@ C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\bin\Debug\
 C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\bin\Debug\net8.0\xunit.assert.dll
 C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\bin\Debug\net8.0\xunit.core.dll
 C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\bin\Debug\net8.0\xunit.execution.dotnet.dll
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\bin\Debug\net8.0\AutoFixture.dll
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\bin\Debug\net8.0\AutoFixture.AutoMoq.dll
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\bin\Debug\net8.0\AutoFixture.Xunit2.dll
+C:\Users\filip\Desktop\Faks\4. godina\Ljetni\Infsus\JAPAN\JAPAN\JAPAN\bin\Debug\net8.0\Fare.dll
