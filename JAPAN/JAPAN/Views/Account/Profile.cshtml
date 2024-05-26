@@ -20,7 +20,7 @@
         <dd class="col-sm-9">@((Model.Korisnik.Prezime != null) ? Model.Korisnik.Prezime : "")</dd>
 
         <dt class="col-sm-3">Datum rođenja:</dt>
-        <dd class="col-sm-9">@((Model.Korisnik.DatumRodenja != null) ? Model.Korisnik.DatumRodenja.Value.ToString("yyyy-MM-dd") : "")</dd>
+        <dd class="col-sm-9">@((Model.Korisnik.DatumRodenja != null) ? Model.Korisnik.DatumRodenja.Value.ToString("dd-MM-yyyy") : "")</dd>
 
         <dt class="col-sm-3">Preporučena težina:</dt>
         <dd class="col-sm-9">@((Model.Korisnik.Preporuka != null) ? Model.Korisnik.Preporuka : "")</dd>
@@ -28,4 +28,8 @@
         <dt class="col-sm-3">Uloga:</dt>
         <dd class="col-sm-9">@Model.Korisnik.Uloga?.Naziv</dd>
     </dl>
+</div>
+<div class="btn-group" role="group" mt-3>
+    <a class="btn btn-warning" asp-controller="Account" asp-action="Uredi">Uredi</a>
+    <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Povratak</a>
 </div>

@@ -1,0 +1,42 @@
+﻿@model JAPAN.ViewModels.KorisniciViewModel
+@{
+    ViewData["Title"] = "Korisnici";
+}
+
+<h1 class="my-4">Tečaji</h1>
+
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Korisničko ime</th>
+            <th>Email</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Datum Rođenja</th>
+            <th>Preporučena težina</th>
+            <th>Uloga</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var korisnik in Model.Korisnici)
+        {
+            <tr>
+                <td>@korisnik.Korisnickoime</td>
+                <td>@((korisnik.Email != null) ? korisnik.Email : "")</td>
+                <td>@((korisnik.Ime != null) ? korisnik.Ime : "")</td>
+                <td>@((korisnik.Prezime != null) ? korisnik.Prezime : "")</td>
+                <td>@((korisnik.DatumRodenja != null) ? korisnik.DatumRodenja.Value.ToString("dd-MM-yyyy") : "")</td>
+                <td>@((korisnik.Preporuka != null) ? korisnik.Preporuka : "")</td>
+                <td>@korisnik.Uloga.Naziv</td>
+                <td>
+                    <a class="btn btn-danger" asp-controller="Account" asp-action="PromjeniUlogu" asp-route-id="@korisnik.Id">Promijeni ulogu</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+ </table>
+<br />
+<a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Povratak</a>
+

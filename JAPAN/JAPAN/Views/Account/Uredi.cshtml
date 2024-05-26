@@ -1,0 +1,63 @@
+﻿@model JAPAN.ViewModels.UrediProfilViewModel
+@{
+    ViewData["Title"] = "Uredi Profil";
+}
+
+<h1>Korisnički profil</h1>
+<br />
+<form asp-action="UrediProfile" method="post">
+    <div class="form-group row">
+        <input type="hidden" id="id" name="Id" class="form-control" value="@Model.Id"/>
+        <label for="korisnickoime" class="col-sm-3 col-form-label">Korisničko ime:</label>
+        <div class="col-sm-9">
+            <input type="text" id="korisnickoime" name="Korisnickoime" class="form-control" value="@Model.Korisnickoime" readonly />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="email" class="col-sm-3 col-form-label">Email:</label>
+        <div class="col-sm-9">
+            <input type="email" id="email" name="Email" class="form-control" value="@Model.Email" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="ime" class="col-sm-3 col-form-label">Ime:</label>
+        <div class="col-sm-9">
+            <input type="text" id="ime" name="Ime" class="form-control" value="@Model.Ime" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="prezime" class="col-sm-3 col-form-label">Prezime:</label>
+        <div class="col-sm-9">
+            <input type="text" id="prezime" name="Prezime" class="form-control" value="@Model.Prezime" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="datumRodenja" class="col-sm-3 col-form-label">Datum rođenja:</label>
+        <div class="col-sm-9">
+            <input type="date" id="datumRodenja" name="DatumRodenja" class="form-control" value="@Model.DatumRodenja?.ToString("yyyy-MM-dd")" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="preporuka" class="col-sm-3 col-form-label">Preporučena težina:</label>
+        <div class="col-sm-9">
+            <input type="text" id="preporuka" name="Preporuka" class="form-control" value="@Model.Preporuka" readonly />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="uloga" class="col-sm-3 col-form-label">Uloga:</label>
+        <div class="col-sm-9">
+            <input type="text" id="uloga" name="Uloga" class="form-control" value="@Model.Uloga" readonly />
+        </div>
+    </div>
+
+    <div class="btn-group mt-3">
+        <button type="submit" class="btn btn-primary">Spremi promjene</button>
+        <a class="btn btn-secondary" asp-controller="Account" asp-action="Profile">Povratak</a>
+    </div>
+</form>
