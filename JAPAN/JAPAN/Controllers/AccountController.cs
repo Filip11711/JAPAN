@@ -72,7 +72,7 @@ namespace JAPAN.Controllers
             var authenticationProperties = new LogoutAuthenticationPropertiesBuilder()
                 // Indicate here where Auth0 should redirect the user after a logout.
                 // Note that the resulting absolute Uri must be whitelisted in 
-                .WithRedirectUri(Url.Action("Index", "Home"))
+                .WithRedirectUri(Url.Action("IndexNeprijavljeni", "Home"))
                 .Build();
 
             await HttpContext.SignOutAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);

@@ -232,8 +232,23 @@ namespace JAPAN.Controllers
             });
         }
 
+        [Route("Index")]
         public IActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("IndexNeprijavljeni");
+            }
+            return View();
+        }
+
+        [Route("")]
+        public IActionResult IndexNeprijavljeni()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index");
+            }
             return View();
         }
 

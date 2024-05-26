@@ -13,6 +13,14 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\filip\\Desktop\\Faks\\4. godina\\Ljetni\\Infsus\\JAPAN\\JAPAN\\JAPAN\\wwwroot\\images\\bg.jpg",
+      "PackagePath": "staticwebassets\\images\\bg.jpg"
+    },
+    {
+      "Id": "C:\\Users\\filip\\Desktop\\Faks\\4. godina\\Ljetni\\Infsus\\JAPAN\\JAPAN\\JAPAN\\wwwroot\\images\\logo.jpg",
+      "PackagePath": "staticwebassets\\images\\logo.jpg"
+    },
+    {
       "Id": "C:\\Users\\filip\\Desktop\\Faks\\4. godina\\Ljetni\\Infsus\\JAPAN\\JAPAN\\JAPAN\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
