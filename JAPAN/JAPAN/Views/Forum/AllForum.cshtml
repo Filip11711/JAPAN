@@ -1,0 +1,39 @@
+﻿@model IEnumerable<JAPAN.Data.Entities.ForumPitanje>
+@{
+    ViewData["Title"] = "All Forum Topics";
+}
+
+<h1 class="my-4">Forum</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Naslov</th>
+            <th>Autor</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Naslov</td>
+                <td>@item.Korisnik.Korisnickoime</td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Odgovori" asp-route-id="@item.Id">Pogledaj pitanje</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Povratak</a>
+
+<style>
+    .text-truncate-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>

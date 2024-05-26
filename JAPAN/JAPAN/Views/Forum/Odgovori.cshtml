@@ -1,0 +1,26 @@
+﻿@model JAPAN.Data.Entities.ForumPitanje
+
+@{
+    ViewData["Title"] = "Pitanje - " + @Model.Naslov;
+}
+
+<h1 class="my-4">@Model.Naslov</h1>
+<div class="card mb-4">
+    <div class="card-body">
+        <p>@Model.Sadrzaj</p>
+        <p class="text-muted">By: @Model.Korisnik.Korisnickoime</p>
+    </div>
+</div>
+
+<h2 class="my-4">Odgovori</h2>
+@foreach (var response in Model.ForumOdgovori)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <p>@response.Sadrzaj</p>
+            <p class="text-muted">By: @response.Korisnik.Korisnickoime</p>
+        </div>
+    </div>
+}
+ 
+<a class="btn btn-secondary mt-4" asp-controller="Forum" asp-action="AllForum">Povratak</a>
