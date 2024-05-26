@@ -1,5 +1,6 @@
 ﻿using JAPAN.Data;
 using JAPAN.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -15,14 +16,14 @@ namespace JAPAN.Controllers
             _context = context;
         }
 
-        // GET: Forum/AllForum
+        [Authorize]
         public async Task<IActionResult> AllForum()
         {
             var forumQuestions = await _context.ForumPitanja.Include(fp => fp.Korisnik).ToListAsync();
             return View(forumQuestions);
         }
 
-        // GET: Forum/Odgovori/5
+        [Authorize]
         public async Task<IActionResult> Odgovori(int? id)
         {
             if (id == null)
@@ -44,13 +45,13 @@ namespace JAPAN.Controllers
             return View(forumPitanje);
         }
 
-        // GET: Forum/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Forum/Create
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Naslov,Sadrzaj,Idkorisnik")] ForumPitanje forumPitanje)
