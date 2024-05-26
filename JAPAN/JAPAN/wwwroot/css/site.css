@@ -39,3 +39,30 @@ body {
 .btn-group {
     gap: 10px;
 }
+
+
+.home-logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.home-display-4 {
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.home-lead {
+    font-size: 1.5rem;
+}
+
+.home-btn-primary {
+    background-color: #ff3545;
+    border-color: #dc3545;
+    font-size: 1.25rem;
+    padding: 10px 20px;
+}
+
+    .home-btn-primary:hover {
+        background-color: #dc3545;
+        border-color: #ff3545;
+    }
