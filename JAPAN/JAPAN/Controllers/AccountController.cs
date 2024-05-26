@@ -93,11 +93,77 @@ namespace JAPAN.Controllers
             });
         }
 
-        /*[Authorize]
-        public async Task<IActionResult> UrediProfile(UserProfileViewModel model)
+        [Authorize]
+        public async Task<IActionResult> Uredi()
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-        }*/
+            var user = await _context.Korisnici.Include(u => u.Uloga)
+                                               .FirstOrDefaultAsync(u => u.Identifikator == userId);
+
+            return View(new UrediProfilViewModel
+            {
+                Id = user.Id,
+                Korisnickoime = user.Korisnickoime,
+                Email = user.Email,
+                Ime = user.Ime,
+                Prezime = user.Prezime,
+                DatumRodenja = user.DatumRodenja,
+                Preporuka = user.Preporuka,
+                Uloga = user.Uloga.Naziv
+            });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> UrediProfile(UrediProfilViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var korisnik = await _context.Korisnici.FindAsync(model.Id);
+
+            korisnik.Email = model.Email;
+            korisnik.Ime = model.Ime;
+            korisnik.Prezime = model.Prezime;
+            korisnik.DatumRodenja = model.DatumRodenja;
+
+            _context.Korisnici.Update(korisnik);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Profile");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Korisnici()
+        {
+            var korisnici = await _context.Korisnici.Include(u => u.Uloga).Where(k => k.Id != 1).ToListAsync();
+
+            var viewModel = new KorisniciViewModel
+            {
+                Korisnici = korisnici
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("/Account/Korisnik/{id}")]
+        public async Task<IActionResult> PromjeniUlogu(int id)
+        {
+            var korisnik = await _context.Korisnici.FindAsync(id);
+
+            korisnik.Iduloga = 5 - korisnik.Iduloga;
+            var uloga = await _context.Uloge.FindAsync(korisnik.Iduloga);
+            korisnik.Uloga = uloga;
+
+            _context.Korisnici.Update(korisnik);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Korisnici");
+        }
 
         public IActionResult AccessDenied()
         {
