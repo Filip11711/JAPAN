@@ -4,12 +4,13 @@
 }
 
 <h1 class="my-4">Forum</h1>
-<a class="btn btn-primary mb-4" asp-action="Create">Add New Topic</a> <!-- New button for creating a topic -->
+<a class="btn btn-primary mb-4" asp-action="Create">Dodaj novu temu</a>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Naslov</th>
             <th>Autor</th>
+            <th>Postavljeno</th>
             <th></th>
         </tr>
     </thead>
@@ -19,7 +20,8 @@
             <tr>
                 <td>@item.Naslov</td>
                 <td>@item.Korisnik.Korisnickoime</td>
-                <td>
+                <td>@item.Kreirano.ToString("dd-MM-yyyy")</td>
+                <td style="width:200px">
                     <a class="btn btn-primary" asp-action="Odgovori" asp-route-id="@item.Id">Pogledaj pitanje</a>
                 </td>
             </tr>

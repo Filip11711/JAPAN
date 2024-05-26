@@ -9,6 +9,7 @@
     <div class="card-body">
         <p>@Model.Sadrzaj</p>
         <p class="text-muted">By: @Model.Korisnik.Korisnickoime</p>
+        <p class="text-muted">Postavljeno: @Model.Kreirano.ToString("dd-MM-yyyy")</p>
     </div>
 </div>
 
@@ -19,11 +20,12 @@
         <div class="card-body">
             <p>@response.Sadrzaj</p>
             <p class="text-muted">By: @response.Korisnik.Korisnickoime</p>
+            <p class="text-muted">Odgovoreno: @response.Kreirano.ToString("dd-MM-yyyy")</p>
         </div>
     </div>
 }
 
-<h3 class="my-4">Add a Response</h3>
+<h3 class="my-4">Dodaj odgovor</h3>
 <form asp-action="AddResponse" method="post">
     <input type="hidden" name="ForumPitanjeId" value="@Model.Id" />
     <div class="form-group">

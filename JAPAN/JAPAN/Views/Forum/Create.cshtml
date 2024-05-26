@@ -1,20 +1,21 @@
-﻿@model JAPAN.Data.Entities.ForumPitanje
+﻿@model JAPAN.ViewModels.ForumPitanjeViewModel
 
 @{
-    ViewData["Title"] = "Add New Topic";
+    ViewData["Title"] = "Nova tema";
 }
 
-<h1 class="my-4">Add New Topic</h1>
+<h1 class="my-4">Dodaj novu temu</h1>
 
 <form asp-action="Create" method="post">
     <div class="form-group">
-        <label for="Naslov">Topic Title</label>
+        <label for="Naslov">Naslov:</label>
+        <input type="hidden" class="form-control" id="UserId" name="UserId" value="@Model.UserId" />
         <input type="text" class="form-control" id="Naslov" name="Naslov" required>
     </div>
     <div class="form-group">
-        <label for="Sadrzaj">Topic Content</label>
+        <label for="Sadrzaj">Sadržaj:</label>
         <textarea class="form-control" id="Sadrzaj" name="Sadrzaj" rows="5" required></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <a class="btn btn-secondary" asp-controller="Forum" asp-action="AllForum">Cancel</a>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    <a class="btn btn-secondary mt-3" asp-controller="Forum" asp-action="AllForum">Odustani</a>
 </form>
