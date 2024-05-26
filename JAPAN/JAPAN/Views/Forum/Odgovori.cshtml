@@ -22,5 +22,14 @@
         </div>
     </div>
 }
- 
+
+<h3 class="my-4">Add a Response</h3>
+<form asp-action="AddResponse" method="post">
+    <input type="hidden" name="ForumPitanjeId" value="@Model.Id" />
+    <div class="form-group">
+        <textarea class="form-control" name="Sadrzaj" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+</form>
+
 <a class="btn btn-secondary mt-4" asp-controller="Forum" asp-action="AllForum">Povratak</a>

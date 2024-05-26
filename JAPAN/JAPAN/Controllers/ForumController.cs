@@ -3,6 +3,7 @@ using JAPAN.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 
 namespace JAPAN.Controllers
@@ -64,6 +65,34 @@ namespace JAPAN.Controllers
                 return RedirectToAction(nameof(AllForum));
             }
             return View(forumPitanje);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddResponse(int ForumPitanjeId, string Sadrzaj)
+        {
+            var forumPitanje = await _context.ForumPitanja
+                .Include(fp => fp.ForumOdgovori)
+                .FirstOrDefaultAsync(fp => fp.Id == ForumPitanjeId);
+
+            if (forumPitanje == null)
+            {
+                return NotFound();
+            }
+
+            var forumOdgovor = new ForumOdgovor
+            {
+                Idpitanje = ForumPitanjeId,
+                Sadrzaj = Sadrzaj,
+                Idkorisnik = 2,
+                Kreirano = DateOnly.FromDateTime(DateTime.Now)
+            };
+
+            forumPitanje.ForumOdgovori.Add(forumOdgovor);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Odgovori), new { id = ForumPitanjeId });
         }
     }
 }

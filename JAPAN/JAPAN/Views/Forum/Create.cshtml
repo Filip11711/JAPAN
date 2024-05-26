@@ -1,0 +1,20 @@
+﻿@model JAPAN.Data.Entities.ForumPitanje
+
+@{
+    ViewData["Title"] = "Add New Topic";
+}
+
+<h1 class="my-4">Add New Topic</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="Naslov">Topic Title</label>
+        <input type="text" class="form-control" id="Naslov" name="Naslov" required>
+    </div>
+    <div class="form-group">
+        <label for="Sadrzaj">Topic Content</label>
+        <textarea class="form-control" id="Sadrzaj" name="Sadrzaj" rows="5" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-secondary" asp-controller="Forum" asp-action="AllForum">Cancel</a>
+</form>
